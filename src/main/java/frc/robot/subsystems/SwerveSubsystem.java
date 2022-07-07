@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.SPI;
+import com.ctre.phoenix.sensors.PigeonIMU;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -9,6 +10,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.SubsystemConstants;
 
 public class SwerveSubsystem extends SubsystemBase {
     private final SwerveModule frontLeft = new SwerveModule(
@@ -47,7 +49,7 @@ public class SwerveSubsystem extends SubsystemBase {
             DriveConstants.kBackRightDriveAbsoluteEncoderOffsetRad,
             DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
 
-    private final PigeonIMU pigeon = new PigeonIMU(pigeonID);
+    private final PigeonIMU gyro = new PigeonIMU(SubsystemConstants.kPigeonID);
     private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics,
             new Rotation2d(0));
 
@@ -62,11 +64,11 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void zeroHeading() {
-        gyro.reset();
+        gyro.configFactoryDefault();
     }
 
     public double getHeading() {
-        return Math.IEEEremainder(gyro.getAngle(), 360);
+        return Math.IEEEremainder(gyro.getPitch(), 360);
     }
 
     public Rotation2d getRotation2d() {

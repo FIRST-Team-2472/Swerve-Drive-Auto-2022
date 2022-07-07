@@ -101,4 +101,8 @@ public final class Constants {
 
         public static final double kDeadband = 0.05;
     }
+
+    public static final class SubsystemConstants {
+        public static final int kPigeonID = 0;
+    }
 }
